@@ -12,7 +12,7 @@ def pageprincipal():
 @app.route('/agendamento', methods=['POST'])
 def agendar():
     email = request.form.get()
-
+    return 'ok'
 
 
 #iniciando/rodando o servidor
