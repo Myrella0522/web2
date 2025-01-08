@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sangue Solidário</title>
+    <link rel="stylesheet" href="..//static//style4.css">
+</head>
+<body>
+<section class="formularioAgendamento">
+    <h2>Agendar Doação de Sangue</h2><br>
+
+    <form id="formAgendamento" action="/agendar" method="post">
+
+        <label for="hemocentro">Hemocentro <span style="color:red;">*</span></label><br>
+        <select id="hemocentro" name="hemocentro">
+            <option value="">Selecione</option>
+            <option value="Hemocentro da Paraíba -JP">Hemocentro da Paraíba - JP</option>
+            <option value="Hemocentro de Campina Grande">Hemocentro de Campina Grande</option>
+            <option value="Hemocentro de Patos">Hemocentro de Patos</option>
+            <option value="Hemocentro de Patos">Hemonucleo de Sousa</option>
+        </select><br>
+        <p id="erroHemocentro" class="erro"></p><br>
+
+        <label for="data">Data <span style="color:red;">*</span></label><br>
+        <input type="date" id="data" name="data"><br>
+        <p id="erroData" class="erro"></p><br>
+
+        <label for="horario">Horário <span style="color:red;">*</span></label><br>
+        <select id="horario" name="horario">
+            <option value="">Selecione</option>
+            <option value="08:00">08:00</option>
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="16:00">17:00</option>
+        </select><br>
+        <p id="erroHorario" class="erro"></p><br>
+
+        <label for="observacao">Deixe uma Observação (opcional)</label><br>
+        <textarea id="observacao" name="observacao" rows="4" placeholder="Digite aqui sua observação."></textarea><br>
+        <p id="erroObservacao" class="erro"></p><br>
+
+        <button type="submit" id="botaoAgendar" name="botaoAgendar">Agendar</button>
+    </form>
+
+    <p class="mensagem">{{mensagem}}</p>
+</section>
+
+
+
+ <script src="..//static//script4.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sangue Solidário</title>
+    <link rel="stylesheet" href="..//static//style5.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bem-vindo, {{ usuario[0] }}!</h1>
+            <p>Veja suas informações e histórico de agendamentos.</p>
+        </header>
+
+
+        <section class="dados-usuario">
+            <h2>Suas Informações</h2>
+            <div class="info">
+                <p><strong>Nome:</strong> {{ usuario[0] }}</p>
+                <p><strong>Idade:</strong> {{ usuario[1] }}</p>
+                <p><strong>Tipo Sanguíneo:</strong> {{ usuario[2] }}</p>
+                <p><strong>Email:</strong> {{ usuario[3] }}</p>
+            </div>
+        </section>
+
+
+        <section class="agendar">
+            <h2>Agende uma Consulta</h2>
+            <p>Para agendar uma consulta, clique no botão abaixo:</p>
+            <button onclick="window.location.href='/agendar'" class="btn-agendar">Agendar Consulta</button>
+        </section>
+
+
+        <section class="historico">
+            <h2>Histórico de Agendamentos</h2>
+            <div class="tabela-agendamentos">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hemocentro</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Observação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if agendamentos %}
+                            {% for agendamento in agendamentos %}
+                            <tr>
+                                <td>{{ agendamento[0] }}</td>
+                                <td>{{ agendamento[1] }}</td>
+                                <td>{{ agendamento[2] }}</td>
+                                <td>{{ agendamento[3] or 'Nenhuma observação' }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4">Nenhum agendamento encontrado.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+      <div class="botao">
+        <p>Deseja voltar para a página inicial?</p>
+        <button onclick="window.location.href='/'" class="botaoVoltar">Voltar</button>
+      </div>
+
+      <div class="logout">
+           <button onclick="confirmLogout()" class="botaoSair">Sair</button>
+      </div>
+
+        <footer>
+            <p>&copy; 2024 Sistema de Doação de Sangue</p>
+        </footer>
+    </div>
+
+<script src="..//static//script5.js"></script>
+</body>
+</html>

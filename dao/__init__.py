@@ -1,7 +1,5 @@
 import psycopg2
 
-#para acessar o banco de dados, eu preciso de uma conexao.
-#provê conexao com o banco de dados
 def conectardb():
     con = psycopg2.connect(
         host='localhost',
@@ -10,47 +8,15 @@ def conectardb():
         password='1234'
     )
     return con
-    conectardb()
 
-#verifica no banco de dados se existe um usuário com matrícula e a senha
-#informadas por parâmetro
-def verificarlogin(matricula, senha, conexao):
-
-    cur = conexao.cursor()
-    cur.execute(f"SELECT matricula, nome FROM usuarios WHERE matricula = '{matricula}' AND senha = '{senha}'")
-    recset = cur.fetchall()
-    cur.close()
-    conexao.close()
-
-    return recset
-
-def insert_comentario(login, comentario, conexao):
-
-    cur = conexao.cursor()
-    exito = False
-    try:
-        #mudar nome da tabela
-        sql = (f"UPDATE usuario SET comentario = '{comentario}' where login = '{login}'")
-        cur.execute(sql)
-    except psycopg2.IntegrityError:
-        conexao.rollback()
-        exito = False
-    else:
-        conexao.commit()
-        exito = True
-
-    cur.close()
-    conexao.close()
-    return exito
-
-def inserirusuario(matricula, nome, senha):
-    #método para conectar o banco de dados, retornando a conexao com o BD
+def inserir_user(nome, idade, tipo_sanguineo, email, senha):
     conexao = conectardb()
     cur = conexao.cursor()
     exito = False
+
     try:
-        sql = f"INSERT INTO usuarios (matricula, nome, senha) VALUES ('{matricula}', '{nome}', '{senha}')"
-        cur.execute(sql)
+        sql = "INSERT INTO usuarios (nome, idade, tipo_sanguineo, email, senha) VALUES (%s, %s, %s, %s, %s)"
+        cur.execute(sql, (nome, idade, tipo_sanguineo, email, senha))
     except psycopg2.Error:
         conexao.rollback()
         exito = False
@@ -61,12 +27,77 @@ def inserirusuario(matricula, nome, senha):
     conexao.close()
     return exito
 
-def listarpessoas(opcao):
+def verificarlogin(email, senha):
     conexao = conectardb()
-
     cur = conexao.cursor()
-    cur.execute(f"SELECT * FROM usuario")
+    cur.execute("SELECT email, nome FROM usuarios WHERE email = %s AND senha = %s", (email, senha))
     recset = cur.fetchall()
+    cur.close()
     conexao.close()
 
     return recset
+
+def inserir_agendamento(hemocentro, data, horario, observacao):
+    conexao = conectardb()
+    cur = conexao.cursor()
+    exito = False
+
+    try:
+        sql = "INSERT INTO agendamentos (hemocentro, data, horario, observacao) VALUES (%s, %s, %s, %s)"
+        cur.execute(sql, (hemocentro, data, horario, observacao))
+        conexao.commit()
+        exito = True
+    except psycopg2.Error as e:
+        conexao.rollback()
+        print(f"Erro ao inserir agendamento: {e}")
+    finally:
+        conexao.close()
+
+    return exito
+
+
+def buscar_dados_usuario(email):
+    conexao = conectardb()
+    cur = conexao.cursor()
+    dados_usuario = None
+    exito = False
+
+    try:
+        sql = "SELECT nome, idade, tipo_sanguineo, email FROM usuarios WHERE email = %s"
+        cur.execute(sql, (email,))
+        dados_usuario = cur.fetchone()
+        exito = True
+    except psycopg2.Error as e:
+        print(f"Erro ao buscar dados do usuário: {e}")
+    finally:
+        cur.close()
+        conexao.close()
+
+    if exito and dados_usuario:
+        return dados_usuario
+    else:
+        return None
+
+
+
+def buscar_agendamentos_usuario(email):
+    conexao = conectardb()
+    cur = conexao.cursor()
+    historico = []
+    exito = False
+
+    try:
+        sql = "SELECT hemocentro, data, horario, observacao FROM agendamentos WHERE email = %s"
+        cur.execute(sql, (email,))
+        historico = cur.fetchall()
+        exito = True
+    except psycopg2.Error as e:
+        print(f"Erro ao buscar agendamentos: {e}")
+    finally:
+        cur.close()
+        conexao.close()
+
+    if exito:
+        return historico
+    else:
+        return []

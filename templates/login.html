@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sangue Solidário</title>
+    <link rel="stylesheet" href="..//static//style3.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="logo.png" alt="Logo Sangue Solidário">
+            <h1>Sistema para Controle de Doadores de Sangue</h1>
+        </header>
+        <div class="login-box">
+            <h2>Login</h2>
+            <form action="/login">
+                <label for="email">E-mail</label>
+                <input type="email" name="email" id="email" placeholder="Digite seu e-mail" required>
+
+                <label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha" placeholder="Digite sua senha" required>
+
+                <button type="submit" class="btn-continue">Continuar</button>
+                <p class="mensagem">{{msglogin}} </p>
+            </form>
+            <p class="new-user-text">Novo usuário?</p>
+            <button onclick="window.location.href='/cadastro'" class="btn-create-account">Crie uma conta</button>
+        </div>
+    </div>
+<script src="..//static//script3.js"></script>
+</body>
+</html>

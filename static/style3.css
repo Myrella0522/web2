@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.container {
+    text-align: center;
+}
+
+header img {
+    width: 60px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+header h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-box {
+    width: 350px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-continue {
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #b30000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-continue:hover {
+    background-color: #920000;
+}
+
+.new-user-text {
+    margin: 15px 0 10px;
+    color: #333;
+    font-size: 14px;
+}
+
+.btn-create-account {
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-create-account:hover {
+    background-color: #e6e6e6;
+}
+.mensagem{
+  color:green;
+  text-align:center;
+  margin-top:10px;
+}
