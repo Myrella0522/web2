@@ -63,8 +63,8 @@ def buscar_dados_usuario(email):
     exito = False
 
     try:
-        sql = "SELECT nome, idade, tipo_sanguineo, email FROM usuarios WHERE email = %s"
-        cur.execute(sql, (email,))
+        sql = "SELECT nome, idade, tipo_sanguineo, email FROM usuarios WHERE email = '{email}'"
+        cur.execute(sql)
         dados_usuario = cur.fetchone()
         exito = True
     except psycopg2.Error as e:
@@ -87,8 +87,8 @@ def buscar_agendamentos_usuario(email):
     exito = False
 
     try:
-        sql = "SELECT hemocentro, data, horario, observacao FROM agendamentos WHERE email = %s"
-        cur.execute(sql, (email,))
+        sql = "SELECT hemocentro, data, horario, observacao FROM agendamentos WHERE email = '{email}'"
+        cur.execute(sql)
         historico = cur.fetchall()
         exito = True
     except psycopg2.Error as e:

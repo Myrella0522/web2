@@ -1,4 +1,4 @@
-             var form = document.getElementById("form");
+        var form = document.getElementById("form");
         var nome = document.getElementById("nome");
         var idade = document.getElementById("idade");
         var tipo_sanguineo = document.getElementById("tipo_sanguineo");
@@ -54,7 +54,7 @@
             } else {
 
                 alert("Cadastro realizado com sucesso!");
-               <a href="/login"></a>
+                window.location.href='/login'
             }
         };
 
