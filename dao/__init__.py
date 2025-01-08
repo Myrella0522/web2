@@ -15,8 +15,8 @@ def inserir_user(nome, idade, tipo_sanguineo, email, senha):
     exito = False
 
     try:
-        sql = "INSERT INTO usuarios (nome, idade, tipo_sanguineo, email, senha) VALUES (%s, %s, %s, %s, %s)"
-        cur.execute(sql, (nome, idade, tipo_sanguineo, email, senha))
+        sql = "INSERT INTO usuarios (nome, idade, tipo_sanguineo, email, senha) VALUES ('{nome}', '{idade}', '{tipo_sanguineo}', '{email}', '{senha}')"
+        cur.execute(sql)
     except psycopg2.Error:
         conexao.rollback()
         exito = False
@@ -30,7 +30,7 @@ def inserir_user(nome, idade, tipo_sanguineo, email, senha):
 def verificarlogin(email, senha):
     conexao = conectardb()
     cur = conexao.cursor()
-    cur.execute("SELECT email, nome FROM usuarios WHERE email = %s AND senha = %s", (email, senha))
+    cur.execute("SELECT email, nome FROM usuarios WHERE email = '{email}' AND senha = '{senha}'")
     recset = cur.fetchall()
     cur.close()
     conexao.close()
@@ -43,8 +43,8 @@ def inserir_agendamento(hemocentro, data, horario, observacao):
     exito = False
 
     try:
-        sql = "INSERT INTO agendamentos (hemocentro, data, horario, observacao) VALUES (%s, %s, %s, %s)"
-        cur.execute(sql, (hemocentro, data, horario, observacao))
+        sql = "INSERT INTO agendamentos (hemocentro, data, horario, observacao) VALUES ('{hemocentro}', '{data}', '{horario}', '{observacao}')"
+        cur.execute(sql)
         conexao.commit()
         exito = True
     except psycopg2.Error as e:
