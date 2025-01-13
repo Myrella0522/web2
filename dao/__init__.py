@@ -2,10 +2,10 @@ import psycopg2
 
 def conectardb():
     con = psycopg2.connect(
-        host='localhost',
-        database='SCDS',
-        user='postgres',
-        password='1234'
+        host='dpg-cu2m28q3esus73ckotgg-a.oregon-postgres.render.com',
+        database='projetoma',
+        user='projetoma_user',
+        password='VYfw8JvPx8UoVURIocBoo9Vb4vkl32xV'
     )
     return con
 
@@ -100,4 +100,4 @@ def buscar_agendamentos_usuario(email):
     if exito:
         return historico
     else:
-        return []
+        retur
