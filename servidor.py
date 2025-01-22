@@ -48,8 +48,9 @@ def login():
     resultado = dao.verificarlogin(email, senha)
 
     if len(resultado) > 0:
-        session['login'] = resultado[0][1]
-        return render_template('pag_usuario.html', user=resultado[0][1])
+        session['login'] = resultado[0][3]
+
+        return render_template('pag_usuario.html', usuario=resultado[0])
     else:
         msg = 'Ops! Senha ou email incorretos'
         return render_template('login.html', msglogin=msg)
@@ -84,6 +85,8 @@ def pag_usuario(historico_agendamentos=None):
 
     if not dados_usuario:
        msgDados = 'Usuário não encontrado'
+
+       render_template("login.html", msgLogin=msgDados)
 
     return render_template("pag_usuario.html", usuario = dados_usuario, agendamentos = historico_agendamentos)
 

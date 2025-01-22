@@ -30,7 +30,7 @@ def inserir_usuario(nome, idade, tipo_sanguineo, email, senha):
 def verificarlogin(email, senha):
     conexao = conectardb()
     cur = conexao.cursor()
-    cur.execute(f"SELECT email, nome FROM usuarios WHERE email = '{email}' AND senha = '{senha}'")
+    cur.execute(f"SELECT nome, idade, tipo_sanguineo, email FROM usuarios WHERE email = '{email}' AND senha = '{senha}'")
     recset = cur.fetchall()
     cur.close()
     conexao.close()
