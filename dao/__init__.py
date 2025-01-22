@@ -9,13 +9,13 @@ def conectardb():
     )
     return con
 
-def inserir_user(nome, idade, tipo_sanguineo, email, senha):
+def inserir_usuario(nome, idade, tipo_sanguineo, email, senha):
     conexao = conectardb()
     cur = conexao.cursor()
     exito = False
 
     try:
-        sql = "INSERT INTO usuarios (nome, idade, tipo_sanguineo, email, senha) VALUES ('{nome}', '{idade}', '{tipo_sanguineo}', '{email}', '{senha}')"
+        sql = f"INSERT INTO usuarios (nome, idade, tipo_sanguineo, email, senha) VALUES ('{nome}', '{idade}', '{tipo_sanguineo}', '{email}', '{senha}')"
         cur.execute(sql)
     except psycopg2.Error:
         conexao.rollback()
@@ -30,7 +30,7 @@ def inserir_user(nome, idade, tipo_sanguineo, email, senha):
 def verificarlogin(email, senha):
     conexao = conectardb()
     cur = conexao.cursor()
-    cur.execute("SELECT email, nome FROM usuarios WHERE email = '{email}' AND senha = '{senha}'")
+    cur.execute(f"SELECT email, nome FROM usuarios WHERE email = '{email}' AND senha = '{senha}'")
     recset = cur.fetchall()
     cur.close()
     conexao.close()
@@ -43,7 +43,7 @@ def inserir_agendamento(hemocentro, data, horario, observacao):
     exito = False
 
     try:
-        sql = "INSERT INTO agendamentos (hemocentro, data, horario, observacao) VALUES ('{hemocentro}', '{data}', '{horario}', '{observacao}')"
+        sql = f"INSERT INTO agendamentos (hemocentro, data, horario, observacao) VALUES ('{hemocentro}', '{data}', '{horario}', '{observacao}')"
         cur.execute(sql)
         conexao.commit()
         exito = True
@@ -63,7 +63,7 @@ def buscar_dados_usuario(email):
     exito = False
 
     try:
-        sql = "SELECT nome, idade, tipo_sanguineo, email FROM usuarios WHERE email = '{email}'"
+        sql = f"SELECT nome, idade, tipo_sanguineo, email FROM usuarios WHERE email = '{email}'"
         cur.execute(sql)
         dados_usuario = cur.fetchone()
         exito = True
@@ -87,7 +87,7 @@ def buscar_agendamentos_usuario(email):
     exito = False
 
     try:
-        sql = "SELECT hemocentro, data, horario, observacao FROM agendamentos WHERE email = '{email}'"
+        sql = f"SELECT hemocentro, data, horario, observacao FROM agendamentos WHERE email = '{email}'"
         cur.execute(sql)
         historico = cur.fetchall()
         exito = True
@@ -100,4 +100,4 @@ def buscar_agendamentos_usuario(email):
     if exito:
         return historico
     else:
-        retur
+        return []

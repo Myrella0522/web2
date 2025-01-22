@@ -28,7 +28,7 @@ def inserir_usuario():
     email = request.form.get('email')
     senha = request.form.get('senha')
 
-    if dao.inserir_user(nome, idade, tipo_sanguineo, email, senha):
+    if dao.inserir_usuario(nome, idade, tipo_sanguineo, email, senha):
         msgCadastro = 'Cadastro realizado com sucesso!'
     else:
         msgCadastro = 'Ops! Erro ao inserir usuário, tente novamente!'
@@ -41,7 +41,7 @@ def pag_login():
 
 
 @app.route('/login', methods=['POST'])
-def fazer_login():
+def login():
     email = request.form.get('email')
     senha = request.form.get('senha')
 
@@ -71,7 +71,6 @@ def agendar():
         msgAgendar = 'Agendamento realizado com sucesso!'
     else:
         msgAgendar = 'Ops! Erro ao realizar agendamento, tente novamente.'
-
     return render_template('agendamento.html', mensagem=msgAgendar)
 
 
@@ -84,14 +83,14 @@ def pag_usuario(historico_agendamentos=None):
     historico_agendamentos = dao.buscar_agendamentos_usuario(email)
 
     if not dados_usuario:
-        return render_template('erro.html', mensagem="Usuário não encontrado")
+       msgDados = 'Usuário não encontrado'
 
     return render_template("pag_usuario.html", usuario = dados_usuario, agendamentos = historico_agendamentos)
 
 @app.route('/logout')
 def logout():
-    session.pop('login', None)
-    return redirect('/login')
+    session.pop('login')
+    return redirect('/')
 
 if __name__ == "__main__":
     app.run(debug=True)
