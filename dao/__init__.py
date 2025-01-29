@@ -36,7 +36,6 @@ def verificarlogin(email, senha):
     conexao.close()
 
     return recset
-
 def inserir_agendamento(hemocentro, data, horario, observacao):
     conexao = conectardb()
     cur = conexao.cursor()
@@ -45,14 +44,14 @@ def inserir_agendamento(hemocentro, data, horario, observacao):
     try:
         sql = f"INSERT INTO agendamentos (hemocentro, data, horario, observacao) VALUES ('{hemocentro}', '{data}', '{horario}', '{observacao}')"
         cur.execute(sql)
+    except psycopg2.Error:
+        conexao.rollback()
+        exito = False
+    else:
         conexao.commit()
         exito = True
-    except psycopg2.Error as e:
-        conexao.rollback()
-        print(f"Erro ao inserir agendamento: {e}")
-    finally:
-        conexao.close()
 
+    conexao.close()
     return exito
 
 
@@ -78,9 +77,15 @@ def buscar_dados_usuario(email):
     else:
         return None
 
+def buscar_agendamentos(email, senha):
+    conexao = conectardb()
+    cur = conexao.cursor()
+    cur.execute (f"SELECT hemocentro, data, horario, observacao FROM agendamentos WHERE email = '{email}' AND senha = '{senha}'")
+    recset = cur.fetchall()
+    cur.close()
+    conexao.close()
 
-
-def buscar_agendamentos_usuario(email):
+def buscar_agendamentos(email):
     conexao = conectardb()
     cur = conexao.cursor()
     historico = []

@@ -28,6 +28,7 @@ def inserir_usuario():
     email = request.form.get('email')
     senha = request.form.get('senha')
 
+
     if dao.inserir_usuario(nome, idade, tipo_sanguineo, email, senha):
         msgCadastro = 'Cadastro realizado com sucesso!'
     else:
@@ -68,8 +69,13 @@ def agendar():
     horario = request.form.get('horario')
     observacao = request.form.get('observacao')
 
+    if not hemocentro or not data or not horario:
+        msgAgendar = 'Todos os campos obrigatórios devem ser preenchidos!'
+        return render_template('agendamento.html', mensagem= msgAgendar)
+
     if dao.inserir_agendamento(hemocentro, data, horario, observacao):
         msgAgendar = 'Agendamento realizado com sucesso!'
+        render_template('pag_usuario.html', mensagem=msgAgendar)
     else:
         msgAgendar = 'Ops! Erro ao realizar agendamento, tente novamente.'
     return render_template('agendamento.html', mensagem=msgAgendar)
@@ -81,7 +87,7 @@ def pag_usuario(historico_agendamentos=None):
         return redirect('/login')
     email = session['login']
     dados_usuario = dao.buscar_dados_usuario(email)
-    historico_agendamentos = dao.buscar_agendamentos_usuario(email)
+    historico_agendamentos = dao.buscar_agendamentos(email)
 
     if not dados_usuario:
        msgDados = 'Usuário não encontrado'
