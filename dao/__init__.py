@@ -36,13 +36,13 @@ def verificarlogin(email, senha):
     conexao.close()
 
     return recset
-def inserir_agendamento(hemocentro, data, horario, observacao):
+def inserir_agendamento(hemocentro, data, horario, observacao, email):
     conexao = conectardb()
     cur = conexao.cursor()
     exito = False
 
     try:
-        sql = f"INSERT INTO agendamentos (hemocentro, data, horario, observacao) VALUES ('{hemocentro}', '{data}', '{horario}', '{observacao}')"
+        sql = f"INSERT INTO agendamentos (hemocentro, data, horario, observacao, email) VALUES ('{hemocentro}', '{data}', '{horario}', '{observacao}', '{email}')"
         cur.execute(sql)
     except psycopg2.Error:
         conexao.rollback()
@@ -55,54 +55,24 @@ def inserir_agendamento(hemocentro, data, horario, observacao):
     return exito
 
 
-def buscar_dados_usuario(email):
-    conexao = conectardb()
-    cur = conexao.cursor()
-    dados_usuario = None
-    exito = False
-
-    try:
-        sql = f"SELECT nome, idade, tipo_sanguineo, email FROM usuarios WHERE email = '{email}'"
-        cur.execute(sql)
-        dados_usuario = cur.fetchone()
-        exito = True
-    except psycopg2.Error as e:
-        print(f"Erro ao buscar dados do usuário: {e}")
-    finally:
-        cur.close()
-        conexao.close()
-
-    if exito and dados_usuario:
-        return dados_usuario
-    else:
-        return None
-
 def buscar_agendamentos(email, senha):
     conexao = conectardb()
     cur = conexao.cursor()
-    cur.execute (f"SELECT hemocentro, data, horario, observacao FROM agendamentos WHERE email = '{email}' AND senha = '{senha}'")
+    cur.execute (f"SELECT hemocentro, data, horario, observacao email FROM agendamentos WHERE email = '{email}' AND senha = '{senha}'")
     recset = cur.fetchall()
     cur.close()
     conexao.close()
 
-def buscar_agendamentos(email):
+    return recset
+
+
+def listar_doadores(opcao):
     conexao = conectardb()
+
     cur = conexao.cursor()
-    historico = []
-    exito = False
+    cur.execute(f"SELECT * FROM doadores")
+    recset = cur.fetchall()
+    conexao.close()
 
-    try:
-        sql = f"SELECT hemocentro, data, horario, observacao FROM agendamentos WHERE email = '{email}'"
-        cur.execute(sql)
-        historico = cur.fetchall()
-        exito = True
-    except psycopg2.Error as e:
-        print(f"Erro ao buscar agendamentos: {e}")
-    finally:
-        cur.close()
-        conexao.close()
+    return recset
 
-    if exito:
-        return historico
-    else:
-        return []

@@ -33,7 +33,7 @@ def inserir_usuario():
         msgCadastro = 'Cadastro realizado com sucesso!'
     else:
         msgCadastro = 'Ops! Erro ao inserir usuário, tente novamente!'
-    return render_template('cadastro.html', mensagem=msgCadastro)
+    return render_template('login.html', mensagem=msgCadastro)
 
 
 @app.route('/login')
@@ -49,7 +49,7 @@ def login():
     resultado = dao.verificarlogin(email, senha)
 
     if len(resultado) > 0:
-        session['login'] = resultado[0][3]
+        session['login'] = email
 
         return render_template('pag_usuario.html', usuario=resultado[0])
     else:
@@ -69,11 +69,7 @@ def agendar():
     horario = request.form.get('horario')
     observacao = request.form.get('observacao')
 
-    if not hemocentro or not data or not horario:
-        msgAgendar = 'Todos os campos obrigatórios devem ser preenchidos!'
-        return render_template('agendamento.html', mensagem= msgAgendar)
-
-    if dao.inserir_agendamento(hemocentro, data, horario, observacao):
+    if dao.inserir_agendamento(hemocentro, data, horario, observacao, session['login']):
         msgAgendar = 'Agendamento realizado com sucesso!'
         render_template('pag_usuario.html', mensagem=msgAgendar)
     else:
@@ -86,7 +82,6 @@ def pag_usuario(historico_agendamentos=None):
     if 'login' not in session:
         return redirect('/login')
     email = session['login']
-    dados_usuario = dao.buscar_dados_usuario(email)
     historico_agendamentos = dao.buscar_agendamentos(email)
 
     if not dados_usuario:
@@ -95,6 +90,13 @@ def pag_usuario(historico_agendamentos=None):
        render_template("login.html", msgLogin=msgDados)
 
     return render_template("pag_usuario.html", usuario = dados_usuario, agendamentos = historico_agendamentos)
+
+@app.route('/listardoadores')
+def listar_doadores():
+    doadores = dao.listar_doadores(session['login'])
+
+    return render_template('listaDoa.html', lista=doadores)
+
 
 @app.route('/logout')
 def logout():

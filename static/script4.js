@@ -55,6 +55,8 @@ form.onsubmit = function (event) {
 
     if (!valido) {
         event.preventDefault();
+        alert ('agendamento feito!')
+
     }
 };
 

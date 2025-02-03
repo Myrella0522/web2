@@ -85,5 +85,10 @@ button:hover {
   text-align:center;
   margin-top:10px;
 }
+.textVoltar{
+  margin: 15px 0 10px;
+  color:darkred;
+  font-size: 12px;
+}
 
 
