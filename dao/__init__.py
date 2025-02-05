@@ -55,10 +55,10 @@ def inserir_agendamento(hemocentro, data, horario, observacao, email):
     return exito
 
 
-def buscar_agendamentos(email, senha):
+def buscar_agendamentos(email):
     conexao = conectardb()
     cur = conexao.cursor()
-    cur.execute (f"SELECT hemocentro, data, horario, observacao email FROM agendamentos WHERE email = '{email}' AND senha = '{senha}'")
+    cur.execute(f"SELECT hemocentro, data, horario, observacao FROM agendamentos WHERE email = '{email}'")
     recset = cur.fetchall()
     cur.close()
     conexao.close()
@@ -66,11 +66,11 @@ def buscar_agendamentos(email, senha):
     return recset
 
 
-def listar_doadores(opcao):
+def listar_doadores():
     conexao = conectardb()
-
     cur = conexao.cursor()
-    cur.execute(f"SELECT * FROM doadores")
+    cur.execute("SELECT nome FROM usuarios")
+
     recset = cur.fetchall()
     conexao.close()
 

@@ -14,6 +14,13 @@ def pag_home():
 def pag_info():
     return render_template('info.html')
 
+@app.route('/lista')
+def pag_lista():
+    return render_template('listaDoa.html')
+
+@app.route('/pag_user')
+def pag_user():
+    return render_template('pag_usuario.html')
 
 @app.route('/cadastro')
 def pag_cadastro():
@@ -64,39 +71,42 @@ def pag_agendar():
 
 @app.route('/agendar', methods=['POST'])
 def agendar():
+    if 'login' not in session:
+        return redirect('/login')
+
     hemocentro = request.form.get('hemocentro')
     data = request.form.get('data')
     horario = request.form.get('horario')
     observacao = request.form.get('observacao')
+    email = session['login']
 
-    if dao.inserir_agendamento(hemocentro, data, horario, observacao, session['login']):
+    if dao.inserir_agendamento(hemocentro, data, horario, observacao, email):
         msgAgendar = 'Agendamento realizado com sucesso!'
-        render_template('pag_usuario.html', mensagem=msgAgendar)
+        return redirect('/usuario')
     else:
         msgAgendar = 'Ops! Erro ao realizar agendamento, tente novamente.'
-    return render_template('agendamento.html', mensagem=msgAgendar)
-
+        return render_template('agendamento.html', mensagem=msgAgendar)
 
 @app.route('/usuario')
-def pag_usuario(historico_agendamentos=None):
+def pag_usuario():
     if 'login' not in session:
         return redirect('/login')
+
     email = session['login']
+    dados_usuario = dao.verificarlogin(email, "")
     historico_agendamentos = dao.buscar_agendamentos(email)
 
     if not dados_usuario:
-       msgDados = 'Usuário não encontrado'
+        msgDados = 'Usuário não encontrado'
+        return render_template("login.html", msgLogin=msgDados)
 
-       render_template("login.html", msgLogin=msgDados)
+    return render_template("pag_usuario.html", usuario=dados_usuario[0], agendamentos=historico_agendamentos)
 
-    return render_template("pag_usuario.html", usuario = dados_usuario, agendamentos = historico_agendamentos)
 
 @app.route('/listardoadores')
 def listar_doadores():
-    doadores = dao.listar_doadores(session['login'])
-
-    return render_template('listaDoa.html', lista=doadores)
-
+    usuarios = dao.listar_doadores()
+    return render_template('listaDoa.html', lista=usuarios)
 
 @app.route('/logout')
 def logout():
