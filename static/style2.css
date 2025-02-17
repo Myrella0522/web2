@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -6,89 +7,77 @@
 }
 
 body {
+    background-color: #f8f8f8;
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f9f9f9;
+    height: 100vh;
+    padding: 20px;
 }
 
 .formularioCadastro {
-    width: 400px;
-    padding: 20px;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(200, 0, 0, 0.3);
+    max-width: 500px;
+    width: 100%;
     border: 1px solid #ddd;
-    border-radius: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+}
+
+h2 {
     text-align: center;
-}
-
-.formularioCadastro h2 {
-    font-size: 22px;
+    color: darkred;
     margin-bottom: 20px;
-    color: #333;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
 }
 
 label {
-    font-size: 14px;
-    margin-bottom: 2px;
-    color: #333;
-}
-
-input, select {
-    margin-bottom: 7px;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-}
-
-input::placeholder {
-    color: #aaa;
-}
-
-select {
-    font-size: 14px;
-}
-
-button {
-    padding: 10px;
-    font-size: 14px;
-    color: #fff;
-    background-color: #b30000;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
     font-weight: bold;
 }
 
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f0f0f0;
+    color: #333;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: darkred;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
 button:hover {
-    background-color: #920000;
+    background: #a40000;
+}
+
+.textVoltar {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #666;
+    text-decoration: none;
+}
+
+.textVoltar:hover {
+    color: darkred;
 }
 
 .erro {
-    font-size: 12px;
     color: red;
+    font-size: 12px;
     margin-top: -10px;
-    margin-bottom: 10px;
-
-}
-.mensagem{
-  color:green;
-  text-align:center;
-  margin-top:10px;
-}
-.textVoltar{
-  margin: 15px 0 10px;
-  color:darkred;
-  font-size: 12px;
 }
 
 

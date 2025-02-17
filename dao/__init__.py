@@ -5,7 +5,7 @@ def conectardb():
         host='dpg-cu2m28q3esus73ckotgg-a.oregon-postgres.render.com',
         database='projetoma',
         user='projetoma_user',
-        password='VYfw8JvPx8UoVURIocBoo9Vb4vkl32xV'
+        password='kIthrcwC97iokSismVDqMY38SN08caKI'
     )
     return con
 

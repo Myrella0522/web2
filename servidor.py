@@ -18,8 +18,8 @@ def pag_info():
 def pag_lista():
     return render_template('listaDoa.html')
 
-@app.route('/pag_user')
-def pag_user():
+@app.route('/voltar')
+def voltar():
     return render_template('pag_usuario.html')
 
 @app.route('/cadastro')
@@ -64,12 +64,7 @@ def login():
         return render_template('login.html', msglogin=msg)
 
 
-@app.route('/agendar')
-def pag_agendar():
-    return render_template('agendamento.html')
-
-
-@app.route('/agendar', methods=['POST'])
+@app.route('/agendar', methods=['POST','GET'])
 def agendar():
     if 'login' not in session:
         return redirect('/login')

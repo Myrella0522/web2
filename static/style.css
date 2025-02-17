@@ -29,45 +29,49 @@ body {
   margin: 0;
 }
 
+
 .banner {
-  background-color: #d32f2f;
-  height: 300px;
-  width: auto;
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  background: linear-gradient(to right, #b71c1c, #d32f2f);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .bannerDoacao {
-  font-size: 24px;
-  color: #fff;
-  width: auto;
-  height: 300px;
-  width: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.95;
 }
+
 
 .texto1 {
   background-color: #fff;
-  margin: -50px 20px 20px;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: -30px auto 20px;
+  padding: 25px;
+  max-width: 850px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
 
 .texto1 h2 {
   color: #b71c1c;
-  margin-bottom: 10px;
+  font-size: 24px;
+  margin-bottom: 15px;
 }
 
 .texto1 p {
-  font-size: 16px;
-  line-height: 1.5;
-  color: #333;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #444;
+  margin-bottom: 10px;
 }
+
 
 .doacao {
   background-color: #fff;
@@ -248,4 +252,3 @@ body {
 .loginbotao:hover{
   background-color: #d32f2f;
 }
-
