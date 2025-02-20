@@ -2,12 +2,13 @@ import psycopg2
 
 def conectardb():
     con = psycopg2.connect(
-        host='dpg-cu2m28q3esus73ckotgg-a.oregon-postgres.render.com',
-        database='projetoma',
-        user='projetoma_user',
+        host='dpg-cumfhqq3esus73bnf2vg-a.oregon-postgres.render.com',
+        database='scds',
+        user='scds_user',
         password='kIthrcwC97iokSismVDqMY38SN08caKI'
     )
     return con
+
 
 def inserir_usuario(nome, idade, tipo_sanguineo, email, senha):
     conexao = conectardb()
@@ -36,23 +37,22 @@ def verificarlogin(email, senha):
     conexao.close()
 
     return recset
-def inserir_agendamento(hemocentro, data, horario, observacao, email):
-    conexao = conectardb()
-    cur = conexao.cursor()
-    exito = False
 
+
+def inserir_agendamento(hemocentro, data, horario, observacao, email):
+    print(hemocentro,data, horario, observacao, email)
     try:
+        conexao = conectardb()
+        cur = conexao.cursor()
         sql = f"INSERT INTO agendamentos (hemocentro, data, horario, observacao, email) VALUES ('{hemocentro}', '{data}', '{horario}', '{observacao}', '{email}')"
         cur.execute(sql)
-    except psycopg2.Error:
-        conexao.rollback()
-        exito = False
+    except Exception as e:
+        print(e)
+        return False
     else:
         conexao.commit()
-        exito = True
-
-    conexao.close()
-    return exito
+        conexao.close()
+        return True
 
 
 def buscar_agendamentos(email):

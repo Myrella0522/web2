@@ -9,6 +9,9 @@ app.secret_key = 'k23jh4kj23h4'
 def pag_home():
     return render_template('home.html')
 
+@app.route('/homeuser')
+def pag_user():
+    return render_template('homeuser.html')
 
 @app.route('/info')
 def pag_info():
@@ -18,14 +21,17 @@ def pag_info():
 def pag_lista():
     return render_template('listaDoa.html')
 
+@app.route('/voltaruser')
+def voltaruser():
+    return render_template('pag_usuario.html')
+
 @app.route('/voltar')
 def voltar():
-    return render_template('pag_usuario.html')
+    return render_template('home.html')
 
 @app.route('/cadastro')
 def pag_cadastro():
     return render_template('cadastro.html')
-
 
 @app.route('/cadastro', methods=['POST'])
 def inserir_usuario():
@@ -41,7 +47,6 @@ def inserir_usuario():
     else:
         msgCadastro = 'Ops! Erro ao inserir usuário, tente novamente!'
     return render_template('login.html', mensagem=msgCadastro)
-
 
 @app.route('/login')
 def pag_login():
@@ -66,19 +71,26 @@ def login():
 
 @app.route('/agendar', methods=['POST','GET'])
 def agendar():
+
+    if request.method == 'GET' and 'login' in session:
+        return render_template('agendamento.html')
+
     if 'login' not in session:
         return redirect('/login')
+
 
     hemocentro = request.form.get('hemocentro')
     data = request.form.get('data')
     horario = request.form.get('horario')
     observacao = request.form.get('observacao')
     email = session['login']
+    print(hemocentro, data, horario, observacao)
 
     if dao.inserir_agendamento(hemocentro, data, horario, observacao, email):
         msgAgendar = 'Agendamento realizado com sucesso!'
         return redirect('/usuario')
     else:
+
         msgAgendar = 'Ops! Erro ao realizar agendamento, tente novamente.'
         return render_template('agendamento.html', mensagem=msgAgendar)
 
@@ -88,14 +100,13 @@ def pag_usuario():
         return redirect('/login')
 
     email = session['login']
-    dados_usuario = dao.verificarlogin(email, "")
     historico_agendamentos = dao.buscar_agendamentos(email)
 
-    if not dados_usuario:
-        msgDados = 'Usuário não encontrado'
+    if not historico_agendamentos:
+        msgDados = 'Dados não  encontrados'
         return render_template("login.html", msgLogin=msgDados)
 
-    return render_template("pag_usuario.html", usuario=dados_usuario[0], agendamentos=historico_agendamentos)
+    return render_template("pag_usuario.html", usuario=historico_agendamentos[0], agendamentos=historico_agendamentos)
 
 
 @app.route('/listardoadores')
