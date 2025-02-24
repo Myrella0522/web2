@@ -27,7 +27,7 @@ def voltaruser():
 
 @app.route('/voltar')
 def voltar():
-    return render_template('home.html')
+    return render_template('homeuser.html')
 
 @app.route('/cadastro')
 def pag_cadastro():
@@ -53,6 +53,11 @@ def pag_login():
     return render_template('login.html')
 
 
+@app.route('/listaragendamentos')
+def a():
+    historico_agendamentos = dao.buscar_agendamentos(session['login'])
+    return render_template("listaragendamentos.html", agendamentos=historico_agendamentos)
+
 @app.route('/login', methods=['POST'])
 def login():
     email = request.form.get('email')
@@ -60,10 +65,16 @@ def login():
 
     resultado = dao.verificarlogin(email, senha)
 
-    if len(resultado) > 0:
-        session['login'] = email
 
-        return render_template('pag_usuario.html', usuario=resultado[0])
+    if len(resultado) > 0:
+        historico_agendamentos = dao.buscar_agendamentos(session['login'])
+        session['login'] = email
+        session['dados'] = resultado[0]
+        if len(historico_agendamentos) > 0:
+            return render_template("pag_usuario.html", usuario=session['dados'], agendamentos=historico_agendamentos)
+        else:
+            return render_template('pag_usuario.html', usuario=resultado[0])
+
     else:
         msg = 'Ops! Senha ou email incorretos'
         return render_template('login.html', msglogin=msg)
@@ -90,7 +101,6 @@ def agendar():
         msgAgendar = 'Agendamento realizado com sucesso!'
         return redirect('/usuario')
     else:
-
         msgAgendar = 'Ops! Erro ao realizar agendamento, tente novamente.'
         return render_template('agendamento.html', mensagem=msgAgendar)
 
@@ -106,7 +116,7 @@ def pag_usuario():
         msgDados = 'Dados não  encontrados'
         return render_template("login.html", msgLogin=msgDados)
 
-    return render_template("pag_usuario.html", usuario=historico_agendamentos[0], agendamentos=historico_agendamentos)
+    return render_template("pag_usuario.html", usuario=session['dados'], agendamentos=historico_agendamentos)
 
 
 @app.route('/listardoadores')

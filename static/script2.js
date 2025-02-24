@@ -51,10 +51,6 @@
 
             if (!valido) {
                 event.preventDefault();
-            } else {
-
-                alert("Cadastro realizado com sucesso!");
-
             }
         };
 
